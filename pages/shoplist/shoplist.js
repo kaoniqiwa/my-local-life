@@ -5,7 +5,8 @@ Page({
     page: 1,
     pageSize: 10,
     total: 0,
-    isLoading: false
+    isLoading: false,
+    requestTask: null
   },
   onLoad(query) {
     // 路径参数
@@ -50,6 +51,11 @@ Page({
 
     this.getShopList()
   },
+
+  onUnload() {
+    // 页面退出时，终止请求
+    this.data.requestTask?.abort()
+  },
   getShopList(cb) {
     // 等待当前请求完成后才能发送请求
     this.setData({
@@ -58,27 +64,29 @@ Page({
     wx.showLoading({
       title: '数据加载中...',
     })
-    wx.request({
+    const requestTask = wx.request({
       url: `https://applet-base-api-t.itheima.net/categories/${this.data.query.id}/shops`,
       data: {
         _page: this.data.page,
         _limit: this.data.pageSize
       },
-      success: ({
-        data,
-        header
-      }) => {
-        this.setData({
-          shopList: [...this.data.shopList, ...data],
-          // 如果没有传递 page 信息，则无 X-Total-Count 响应头
-          total: header['X-Total-Count'] ? +header['X-Total-Count'] : data.length
-        })
-        if (this.data.shopList.length <= 4) {
+      success: (res) => {
+        // 回调函数 success ,fail 是 wx API 内部出错时调用，服务器 404 也会走 success，因为请求成功，只是请求结果是服务器返回的 404
+        if (res.statusCode === 200) {
+          const {
+            data,
+            header
+          } = res
           this.setData({
-            page: ++this.data.page
+            shopList: [...this.data.shopList, ...data],
+            // 如果没有传递 page 信息，则无 X-Total-Count 响应头
+            total: header['X-Total-Count'] ? +header['X-Total-Count'] : data.length
           })
-          this.getShopList()
         }
+
+      },
+      fail: (err) => {
+        console.log('fail', err);
       },
       complete: () => {
         wx.hideLoading()
@@ -89,6 +97,9 @@ Page({
         // 停止下拉动画
         cb && cb()
       }
+    })
+    this.setData({
+      requestTask: requestTask
     })
   }
 })
