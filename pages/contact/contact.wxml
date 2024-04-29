@@ -1,0 +1,1 @@
+<view class="num-item" wx:for="{{colorList}}" wx:key="index" style="background-color:rgb({{item}})">{{item}}</view>

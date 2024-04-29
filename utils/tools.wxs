@@ -1,0 +1,8 @@
+function splitPhone(phone) {
+	if (!phone) return ''
+	if (phone.length !== 11) return phone
+	return phone.substring(0, 3) + '-' + phone.substring(3, 7) + "-" + phone.substring(7, 11)
+}
+module.exports = {
+	splitPhone: splitPhone
+}

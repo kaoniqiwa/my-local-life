@@ -1,0 +1,53 @@
+swiper {
+	height: 350rpx;
+}
+
+swiper-item {
+	box-sizing: border-box;
+}
+
+swiper-item image {
+	width: 100%;
+	height: 100%;
+}
+
+.grid-list {
+	display: flex;
+	flex-wrap: wrap;
+	border-top: 1px solid #efefefef;
+	border-left: 1px solid #efefefef;
+
+}
+
+.grid-item {
+	width: calc(100% / 3);
+	height: 200rpx;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-right: 1px solid #efefefef;
+	border-bottom: 1px solid #efefefef;
+}
+
+.grid-item image {
+	width: 60rpx;
+	height: 60rpx;
+}
+
+.grid-item text {
+	font-size: 24rpx;
+	margin-top: 10rpx;
+}
+
+
+.image-box {
+	display: flex;
+	padding: 20rpx 10rpx;
+	justify-content: space-around;
+}
+
+.image-box image {
+	flex-basis: 45%;
+}

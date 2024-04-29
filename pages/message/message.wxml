@@ -1,0 +1,9 @@
+<!--pages/message/message.wxml-->
+
+<wxs module="m1">
+	module.exports = {
+		message: 'hello'
+	}
+</wxs>
+
+<text>{{m1.message}}</text>
